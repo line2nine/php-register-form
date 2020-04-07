@@ -1,16 +1,16 @@
 [
     {
-        "username": "admin",
-        "email": "email@gmail.com",
+        "name": "truong thi be",
+        "email": "hailinh203@gmail.com",
         "phone": "0123456789"
     },
     {
-        "username": "admin",
+        "name": "truong thi be",
         "email": "hailinh203@gmail.com",
-        "phone": "0123456786"
+        "phone": "0123456789"
     },
     {
-        "name": "admin",
+        "name": "truong thi be",
         "email": "hailinh203@gmail.com",
         "phone": "0123456789"
     }

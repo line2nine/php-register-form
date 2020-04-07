@@ -1,24 +1,5 @@
 <?php
 
-function loadJSON($filename)
-{
-    $jsonData = file_get_contents($filename);
-    return json_decode($jsonData);
-}
-
-function saveJSON($filename, $data)
-{
-    try {
-        $arrData = loadJSON($filename);
-        array_push($arrData, $data);
-        $jsonData = json_encode($arrData);
-        file_put_contents($filename, $jsonData);
-        echo "Lưu dữ liệu thành công!";
-    } catch (Exception $e) {
-        echo 'Lỗi: ', $e->getMessage();
-    }
-}
-
 $nameErr = NULL;
 $emailErr = NULL;
 $phoneErr = NULL;
@@ -27,9 +8,10 @@ $email = NULL;
 $phone = NULL;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_REQUEST["name"];
-    $email = $_REQUEST["email"];
-    $phone = $_REQUEST["phone"];
+    include "action/reg.php";
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
     $hasError = false;
 
     if (empty($name)) {
@@ -52,41 +34,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $hasError = true;
     }
 
-    if ($hasError == false) {
-        saveJSON("user.json", $data);
-        $data = [
-            "name" => $name,
-            "email" => $email,
-            "phone" => $phone
-        ];
+    if ($hasError === false) {
+        saveJSON("user.json", $name, $email, $phone);
+        $name = NULL;
+        $email = NULL;
+        $phone = NULL;
     }
 }
-
 ?>
+
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <style>
-        .error {
-            color: #FF0000;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        td, th {
-            border: solid 1px #ccc;
-        }
-
-        form {
-            width: 450px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
     <title>Register Form</title>
 </head>
 <body>
+
 <h2>Registration Form</h2>
 <form method="post">
     <fieldset>
@@ -106,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 
 <?php
+include "action/reg.php";
 $registrations = loadJSON('user.json');
 ?>
 <h2>Registration list</h2>

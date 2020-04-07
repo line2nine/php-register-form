@@ -1,23 +1,24 @@
 <?php
-
-function loadJSON($filepath)
+function loadJSON($filename)
 {
-    $jsonData = file_get_contents($filepath);
-    return json_decode($jsonData);
+    $jsonData = file_get_contents($filename);
+    return json_decode($jsonData, true);
 }
 
-function dataJSON($filepath, $username, $email, $phone)
+function saveJSON($filename, $name, $email, $phone)
 {
     try {
-        $contact = ["username" => $username, "email" => $email, "phone" => $phone];
-
-        $arr = loadJSON($filepath);
-        array_push($arr, $contact);
-        $jsonData = json_encode($arr);
-        file_put_contents($filepath, $jsonData);
-        echo "Saved Register";
-    }
-    catch (Exception $exception){
-        echo "Error: ", $exception->getMessage();
+        $contact = array(
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone
+        );
+        $arrData = loadJSON($filename);
+        array_push($arrData, $contact);
+        $jsonData = json_encode($arrData, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $jsonData);
+        echo "Lưu dữ liệu thành công!";
+    } catch (Exception $e) {
+        echo 'Lỗi: ', $e->getMessage();
     }
 }
